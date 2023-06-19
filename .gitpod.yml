@@ -5,7 +5,8 @@ tasks:
       echo 'init script' # runs during prebuild
       python -m venv .venv
       source .venv/bin/activate
-      pip install robotframework robotframework-browser robotframework-requests pyotp
+      pip install robotframework==6.0.2
+      pip -r requirements.txt
       rfbrowser init
     command: |
       echo 'start script'
