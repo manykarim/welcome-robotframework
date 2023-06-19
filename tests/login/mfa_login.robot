@@ -32,3 +32,4 @@ Enter TOTP Code
 Sign In and Verify Welcome Message
     Click    "Sign in"
     Get Text  h1  ==  Welcome!
+    Take Screenshot
