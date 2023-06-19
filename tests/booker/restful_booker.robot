@@ -1,83 +1,81 @@
 *** Settings ***
 Library    RequestsLibrary
 Library    Collections
-Suite Setup    Create Session    booker    url=https://restful-booker.herokuapp.com    headers={"Content-Type":"application/json"}    disable_warnings=True
+Suite Setup    
+Variables    testdata.py
 
 *** Test Cases ***
 
-Create Booking with JSON string
-    ${body} =     Catenate    SEPARATOR=\n
-    ...    {
-    ...    "firstname" : "Jim",
-    ...    "lastname" : "Brown",
-    ...    "totalprice" : 111,
-    ...    "depositpaid" : true,
-    ...    "bookingdates" : {
-    ...    "checkin" : "2018-01-01",
-    ...    "checkout" : "2019-01-01"
-    ...    },
-    ...    "additionalneeds" : "Breakfast"
-    ...    }
-    ${response}    POST On Session    booker    /booking    data=${body} 
+Create Booking with Low Level Keywords
+    Create Session    booker    url=${url}    headers=${headers}   disable_warnings=True
+    # Create Booking
+    ${response}    POST On Session    booker    /booking    json=${booking}
     Status Should Be    200
-
-    # Get the ID
-    ${id}    Set Variable    ${response.json()}[bookingid]
+    # Log response and retrieve booking via GET
     ${response}    GET On Session    booker    /booking/${response.json()}[bookingid]
-    Log    ${response.json()}
-    Should Be Equal    ${response.json()}[lastname]    Brown
-    Should Be Equal    ${response.json()}[firstname]    Jim
-    Should Be Equal As Numbers    ${response.json()}[totalprice]    111
-    Should Be Equal As Strings    ${response.json()}[depositpaid]    True
-    Should Be Equal    ${response.json()}[bookingdates][checkin]    2018-01-01
-    Should Be Equal    ${response.json()}[bookingdates][checkout]    2019-01-01
-    Should Be Equal    ${response.json()}[additionalneeds]    Breakfast
+    # Assertions
+    Should Be Equal    ${response.json()}[lastname]    ${booking}[lastname]
+    Should Be Equal    ${response.json()}[firstname]    ${booking}[firstname]
+    Should Be Equal As Numbers    ${response.json()}[totalprice]    ${booking}[totalprice]
+    Should Be Equal As Strings    ${response.json()}[depositpaid]    ${booking}[depositpaid]
+    Should Be Equal    ${response.json()}[bookingdates][checkin]    ${booking}[bookingdates][checkin]
+    Should Be Equal    ${response.json()}[bookingdates][checkout]    ${booking}[bookingdates][checkout]
+    Should Be Equal    ${response.json()}[additionalneeds]    ${booking}[additionalneeds]
 
 
-Create a Booking with Robot Framework Dictionary
-    ${booking_dates}    Create Dictionary    checkin=2022-12-31    checkout=2023-01-01
-    ${body}    Create Dictionary    firstname=Hans    lastname=Gruber    totalprice=200    depositpaid=false    bookingdates=${booking_dates}
-    ${response}    POST On Session    booker    /booking    json=${body}
-    ${id}    Set Variable    ${response.json()}[bookingid]
-    Set Suite Variable    ${id}
-    ${response}    GET    https://restful-booker.herokuapp.com/booking/${id}
-    Log    ${response.json()}
-    Should Be Equal    ${response.json()}[lastname]    Gruber
-    Should Be Equal    ${response.json()}[firstname]    Hans   
-    Should Be Equal As Numbers    ${response.json()}[totalprice]    200
-    Dictionary Should Contain Value     ${response.json()}    Gruber
+Create a Booking with High Level Keywords
+    Given I Am Authenticated As A User
+    When I Create A Correct Booking
+    Then I Should Get A 200 Response
+    And The Booking Should Be Stored
 
 Delete Booking
-    # Create a booking
-    ${body} =     Catenate    SEPARATOR=\n
-    ...    {
-    ...    "firstname" : "Jim",
-    ...    "lastname" : "Brown",
-    ...    "totalprice" : 111,
-    ...    "depositpaid" : true,
-    ...    "bookingdates" : {
-    ...    "checkin" : "2018-01-01",
-    ...    "checkout" : "2019-01-01"
-    ...    },
-    ...    "additionalneeds" : "Breakfast"
-    ...    }
-    ${response}    POST On Session    booker    /booking    data=${body}
-    Authenticate as Admin
-    ${header}    Create Dictionary    Cookie=token\=${token}
-    Create Session    booker_admin    url=https://restful-booker.herokuapp.com    headers=${header}    disable_warnings=True
-    # Get the ID
-    ${id}    Set Variable    ${response.json()}[bookingid]
-    # Delete the booking
-    ${response}    DELETE On Session    booker_admin    /booking/${id}
-    # Do some assertions
-    Status Should Be    201
+    Given I Am Authenticated As An Admin
+    And I Create A Correct Booking
+    When I Delete The Booking
+    Then I Should Get A 201 Response
+    And The Booking Should Be Deleted
 
 
 *** Keywords ***
 Authenticate as Admin
-    ${body}    Create Dictionary    username=admin    password=password123
-    ${response}    POST    url=https://restful-booker.herokuapp.com/auth    json=${body}
-    Log    ${response.json()}
+    ${response}    POST    url=https://restful-booker.herokuapp.com/auth    json=${auth}
     ${token}    Set Variable    ${response.json()}[token]
-    Log    ${token}
-    Set Suite Variable    ${token}
+    ${header}    Create Dictionary    Cookie=token\=${token}
+    Create Session    booker_admin    url=${url}    headers=${header}    disable_warnings=True
+
+
+I Am Authenticated As A User
+    Create Session    booker    url=${url}    headers=${headers}   disable_warnings=True
+
+I Am Authenticated As An Admin
+    Authenticate as Admin
+
+I Create A Correct Booking
+    ${response}    POST On Session    booker    /booking    json=${booking}
+    Set Test Variable    ${response}
+
+I Should Get A 200 Response
+    Status Should Be    200
+
+I Should Get A 201 Response
+    Status Should Be    201
+
+The Booking Should Be Stored
+    ${response}    GET On Session    booker    /booking/${response.json()}[bookingid]
+    Log    ${response.json()}
+    # Assertions
+    Should Be Equal    ${response.json()}[lastname]    ${booking}[lastname]
+    Should Be Equal    ${response.json()}[firstname]    ${booking}[firstname]
+    Should Be Equal As Numbers    ${response.json()}[totalprice]    ${booking}[totalprice]
+    Should Be Equal As Strings    ${response.json()}[depositpaid]    ${booking}[depositpaid]
+    Should Be Equal    ${response.json()}[bookingdates][checkin]    ${booking}[bookingdates][checkin]
+    Should Be Equal    ${response.json()}[bookingdates][checkout]    ${booking}[bookingdates][checkout]
+    Should Be Equal    ${response.json()}[additionalneeds]    ${booking}[additionalneeds]
+
+
+I Delete The Booking
+    ${response}    DELETE On Session    booker_admin    /booking/${response.json()}[bookingid]
+
+The Booking Should Be Deleted
+    ${response}    GET On Session    booker    /booking/${response.json()}[bookingid]    expected_status=404
