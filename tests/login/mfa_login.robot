@@ -1,10 +1,8 @@
 *** Settings ***
-Library    Browser    #enable_presenter_mode=True    show_keyword_call_banner=False
+Library    Browser
 Library    totp.py
-Suite Setup    New Browser    browser=${BROWSER}    headless=${HEADLESS}
-Test Setup    New Context
-Test Teardown    Close Context
-Suite Teardown    Close Browser
+Test Setup    New Browser    browser=${BROWSER}    headless=${HEADLESS}
+Test Teardown    Close Browser
 
 *** Variables ***
 ${BROWSER}    chromium
@@ -12,10 +10,25 @@ ${HEADLESS}    False
 
 *** Test Cases ***
 Login with MFA
+    Open Login Page
+    Enter Username and Password    demo_user    secret_pass
+    Enter TOTP Code    GAXG2MTEOR3DMMDG
+    Sign In and Verify Welcome Message
+    
+*** Keywords ***
+Open Login Page
     New Page    https://seleniumbase.io/realworld/login
-    Fill Text    id=username    demo_user
-    Fill Text    id=password    secret_pass
-    ${totp}    Get Totp    GAXG2MTEOR3DMMDG
+
+Enter Username and Password
+    [Arguments]    ${username}    ${password}
+    Fill Text    id=username    ${username}
+    Fill Text    id=password    ${password}    
+
+Enter TOTP Code
+    [Arguments]    ${secret}
+    ${totp}    Get Totp    ${secret}
     Fill Text    id=totpcode     ${totp}
+
+Sign In and Verify Welcome Message
     Click    "Sign in"
     Get Text  h1  ==  Welcome!
