@@ -1,7 +1,6 @@
 *** Settings ***
 Library    RequestsLibrary
 Library    Collections
-Suite Setup    
 Variables    testdata.py
 
 *** Test Cases ***
