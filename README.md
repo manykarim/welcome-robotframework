@@ -5,6 +5,35 @@ Simple examples to get started with Robot Framework
 
 <img src='bit.ly_welcome-robotframework.png' width='25%'>
 
-## GitPod Link to run examples
+## How to run examples
+
+### Install via pip
+
+```bash	
+git clone https://github.com/manykarim/welcome-robotframework
+cd welcome-robotframework
+pip install -r requirements.txt
+robot -d results/ tests/
+```
+
+### Install via Poetry
+    
+```bash
+git clone https://github.com/manykarim/welcome-robotframework
+cd welcome-robotframework
+poetry install
+poetry run robot -d results/ tests/
+```
+
+
+
+## Run in Gitpod
+
+- Open GitPod Link below
+- Select to "Continue with GitHub"
+- Select "free" GitPod plan (50 hours/month)
+- Confirm creation of GitPod workspace and wait for it to be created
+- Run `robot -d results/ tests/`
+
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/manykarim/welcome-robotframework)  
 https://gitpod.io/#https://github.com/manykarim/welcome-robotframework
