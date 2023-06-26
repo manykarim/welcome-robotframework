@@ -1,3 +1,2 @@
-poetry install
-poetry run python -m rfbrowser init
-poetry shell
+pip3 install -r requirements.txt
+rfbrowser init
