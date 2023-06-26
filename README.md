@@ -44,4 +44,10 @@ https://gitpod.io/#https://github.com/manykarim/welcome-robotframework
 
 #### Run in GitHub Codespaces (experimental)
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/manykarim/welcome-robotframework)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/manykarim/welcome-robotframework)  
+
+- Open a `Terminal` in VS Code
+- Run `robot tests` in Terminal
+
+Optional: If you want to "see" the WebBrowser during execution, go to `Ports` tab in Terminal.  
+Add Port `6080`, select the new entry and click on the small globe icon to open it in a new Browser Tab.
