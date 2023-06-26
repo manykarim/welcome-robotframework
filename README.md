@@ -7,7 +7,11 @@ Simple examples to get started with Robot Framework
 
 ## How to run examples
 
-### Install via pip
+There are multiple options to run the examples.
+
+### Run locally
+
+#### Install via pip
 
 ```bash	
 git clone https://github.com/manykarim/welcome-robotframework
@@ -16,7 +20,7 @@ pip install -r requirements.txt
 robot -d results/ tests/
 ```
 
-### Install via Poetry
+#### Install via Poetry
     
 ```bash
 git clone https://github.com/manykarim/welcome-robotframework
@@ -25,9 +29,9 @@ poetry install
 poetry run robot -d results/ tests/
 ```
 
+### Run remotely (no need to install anything)
 
-
-## Run in Gitpod
+#### Run in Gitpod
 
 - Open GitPod Link below
 - Select to "Continue with GitHub"
@@ -37,3 +41,7 @@ poetry run robot -d results/ tests/
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/manykarim/welcome-robotframework)  
 https://gitpod.io/#https://github.com/manykarim/welcome-robotframework
+
+#### Run in GitHub Codespaces (experimental)
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/manykarim/welcome-robotframework)
