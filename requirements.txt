@@ -1,3 +1,4 @@
+robotframework==6.0.2
 robotframework-browser
 robotframework-requests
 pyotp
