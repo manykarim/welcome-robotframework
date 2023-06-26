@@ -1,2 +1,2 @@
 pip3 install -r requirements.txt
-rfbrowser init
+python -m Browser.entry init
