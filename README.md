@@ -1,6 +1,15 @@
 # welcome-robotframework
 Simple examples to get started with Robot Framework
 
+## Slides
+
+You can download the slides from [here](https://docs.google.com/presentation/d/1zzEA4sFHxcTjomqOM9aE25OgnZ0Vq3Jl/edit?usp=sharing&ouid=103496806177522578842&rtpof=true&sd=true).
+
+Make sure to open the slides in "PowerPoint" (you can open them in read-only) as they are not fully compatible with Google Slides.
+
+You can also find the images of all slides in the `slides` folder.    
+The videos are available as animated GIFs in the `slides/videos` folder.
+
 ## http://bit.ly/welcome-robotframework
 
 <img src='bit.ly_welcome-robotframework.png' width='25%'>
