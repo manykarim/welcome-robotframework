@@ -1,4 +1,4 @@
-robotframework==6.0.2
+robotframework
 robotframework-browser
 robotframework-requests
 robotframework-soaplibrary
