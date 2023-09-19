@@ -6,7 +6,6 @@ Library    String
 
 *** Variables ***
 ${CALCULATOR_URL}    http://www.dneonline.com/calculator.asmx?WSDL
-${NUMBERTOWORDS_URL}    https://www.dataaccess.com/webservicesserver/NumberConversion.wso?WSDL
 
 *** Test Cases ***
 Multiply Two Numbers And Assert
@@ -52,10 +51,3 @@ Perform full comparison of reference response against candidate response
     ${candidate}    Save XML To File    ${response}    save_folder=${CURDIR}    file_name=multiply_candidate_response
     ${reference}    Parse Xml  source=${CURDIR}${/}multiply_reference_response.xml
     Elements Should Be Equal    source=${candidate}    expected=${reference}
-
-Convert Number To Word
-    Create SOAP Client   url=${NUMBERTOWORDS_URL}
-    ${response}    Call SOAP Method With XML   xml=${CURDIR}${/}data${/}numberToWords${/}numberToWords.xml
-    ${words}    Get Data From XML By Tag   ${response}    m:NumberToWordsResult
-    ${words}    Strip String    ${words}   
-    Should Be Equal As Strings    ${words}    five hundred
