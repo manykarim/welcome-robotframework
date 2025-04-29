@@ -28,7 +28,7 @@ jobs:
           installer-parallel: true
       - name: Install dependencies
         run: |
-            poetry install
+            poetry install --no-root
             poetry run rfbrowser init
       - name: Run tests
         run: |
