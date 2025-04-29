@@ -12,6 +12,8 @@ robotframework="*"
 robotframework-browser = "*"
 robotframework-requests = "*"
 pyotp = "*"
+robotframework-jsonlibrary = "*"
+robotframework-soaplibrary = "*"
 
 
 [build-system]
