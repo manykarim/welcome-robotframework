@@ -45,4 +45,4 @@ jobs:
     - name: Report results
       if: success() || failure() 
       run: |
-        poetry run python utils/gha_reporter.py results/output.xml $GITHUB_STEP_SUMMARY
+        poetry run python utilities/gha_reporter.py results/output.xml $GITHUB_STEP_SUMMARY
