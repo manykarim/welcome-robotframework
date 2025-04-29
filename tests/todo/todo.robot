@@ -8,7 +8,7 @@ Suite Teardown    Close Browser
 
 *** Variables ***
 ${BROWSER}    chromium
-${HEADLESS}    False
+${HEADLESS}    True
 
 *** Test Cases ***
 Add Two ToDos And Check Items
