@@ -17,7 +17,7 @@ Add Two ToDos And Check Items
     Given ToDo App is open
     When I Add A New ToDo "Learn Robot Framework"
     And I Add A New ToDo "Write Test Cases"
-    Then Open ToDos should show "2 items left"
+    Then Open ToDos should show "2 items left!"
 
 Add Two ToDos And Check Wrong Number Of Items
     [Documentation]    Checks if ToDos can be added and ToDo count increases
@@ -25,14 +25,14 @@ Add Two ToDos And Check Wrong Number Of Items
     Given ToDo App is open
     When I Add A New ToDo "Learn Robot Framework"
     And I Add A New ToDo "Write Test Cases"
-    Then Open ToDos should show "1 items left"
+    Then Open ToDos should show "1 items left!"
 
 Add ToDo And Mark Same ToDo
     [Tags]    Mark ToDo
     Given ToDo App is open
     When I Add A New ToDo "Learn Robot Framework"
     And I Mark ToDo "Learn Robot Framework"
-    Then Open ToDos should show "0 items left"
+    Then Open ToDos should show "0 items left!"
 
 
 *** Keywords ***
