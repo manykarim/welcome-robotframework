@@ -31,7 +31,7 @@ jobs:
         poetry run rfbrowser init
     - name: Run tests
       run: |
-        poetry run robot -d results --prerebotmodifier utilities.xom.XUnitOut:results/xunit.xml tests
+        poetry run python -m robot -d results --prerebotmodifier utilities.xom.XUnitOut:results/xunit.xml tests
     - name: Store Artifact
       uses: actions/upload-artifact@v4
       if: success() || failure()
