@@ -42,10 +42,7 @@ jobs:
         path: |
           results/*.html
           results/*.xml
-    - name: Test Report
-      uses: dorny/test-reporter@main
-      if: success() || failure()    # run this step even if previous step failed
-      with:
-        name: xUnit Tests ${{ matrix.python-version }}            # Name of the check run which will be created
-        path: results/xunit.xml    # Path to test results
-        reporter: java-junit        # Format of test results
+    - name: Report results
+      if: success() || failure() 
+      run: |
+        poetry run python utils/gha_reporter.py results/output.xml $GITHUB_STEP_SUMMARY
