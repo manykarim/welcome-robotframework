@@ -1,0 +1,52 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+          matrix:
+            python-version: ["3.12"]
+          fail-fast: false
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.8.5
+          virtualenvs-create: true
+          virtualenvs-in-project: false
+          virtualenvs-path: ~/.virtualenvs
+          installer-parallel: true
+      - name: Install dependencies
+        run: |
+            poetry install
+            poetry run rfbrowser init
+      - name: Run tests
+        run: |
+          poetry run robot -d results --prerebotmodifier utilities.xom.XUnitOut:results/xunit.xml tests
+      - name: Store Artifact
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: test-results ${{ matrix.python-version }} # Choose a descriptive name for your artifact
+          path: |
+            results/*.html
+            results/*.xml
+            results/*.txt
+      - name: Test Report
+        uses: dorny/test-reporter@main
+        if: success() || failure()    # run this step even if previous step failed
+        with:
+          name: xUnit Tests ${{ matrix.python-version }}            # Name of the check run which will be created
+          path: results/pytest.xml,results/xunit.xml    # Path to test results
+          reporter: java-junit        # Format of test results
+          
