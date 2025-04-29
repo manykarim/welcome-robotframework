@@ -26,9 +26,9 @@ jobs:
         installer-parallel: true
     - name: Install dependencies
       run: |
+        npx playwright install-deps
         poetry install --no-root
         poetry run rfbrowser init
-        npx playwright install-deps
     - name: Run tests
       run: |
         poetry run robot -d results --prerebotmodifier utilities.xom.XUnitOut:results/xunit.xml tests
