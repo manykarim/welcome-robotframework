@@ -12,16 +12,6 @@ jobs:
           fail-fast: false    
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22.x
-    - name: Install nodejs dependencies
-      env:
-        PLAYWRIGHT_BROWSERS_PATH: 0
-      run: |
-        npm ci
-        npx playwright install --with-deps
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
@@ -38,6 +28,7 @@ jobs:
       run: |
         poetry install --no-root
         poetry run rfbrowser init
+        npx playwright install-deps
     - name: Run tests
       run: |
         poetry run robot -d results --prerebotmodifier utilities.xom.XUnitOut:results/xunit.xml tests
