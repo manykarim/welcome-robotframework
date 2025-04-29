@@ -6,7 +6,7 @@ Test Teardown    Close Browser
 
 *** Variables ***
 ${BROWSER}    chromium
-${HEADLESS}    False
+${HEADLESS}    True
 
 *** Test Cases ***
 Login with MFA
