@@ -8,7 +8,7 @@ packages = [{include = "welcome_robotframework"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-robotframework="<6.1.0"
+robotframework="*"
 robotframework-browser = "*"
 robotframework-requests = "*"
 pyotp = "*"
